@@ -3,10 +3,14 @@
   import ToDoList from "./ToDoList.svelte";
   let nameEntered = false;
 
-  let firstName = "Alice";
-  let lastName = "Watson";
+  let firstName = "";
+  let lastName = "";
 
   $: fullName = firstName + " " + lastName;
+
+  function handleSubmit() {
+    if (firstName && lastName) nameEntered = true;
+  }
 </script>
 
 <main>
@@ -17,12 +21,25 @@
   {:else}
     <h1>Welcome to task manager!</h1>
     <h3>Please enter your name:</h3>
-    <div>
-      <input type="text" placeholder="First name" required="required" />
-    </div>
-    <div>
-      <input type="text" placeholder="Last name" required="required" />
-    </div>
+    <form on:submit|preventDefault={handleSubmit}>
+      <div>
+        <input
+          bind:value={firstName}
+          type="text"
+          placeholder="First name"
+          required="required"
+        />
+      </div>
+      <div>
+        <input
+          bind:value={lastName}
+          type="text"
+          placeholder="Last name"
+          required="required"
+        />
+      </div>
+      <button on:click={handleSubmit}>Start managing tasks</button>
+    </form>
   {/if}
 </main>
 
